@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\AddToCartRequest;
 use App\Models\CartItem;
 use App\Models\Order;
 use App\Models\Product;
@@ -15,7 +16,7 @@ class CartController extends Controller
         return view('cart', compact('cartItems'));
     }
 
-    public function addToCart(Request $request, Product $product)
+    public function addToCart(AddToCartRequest $request, Product $product)
     {
         $data = $request->validated();
         $user = \Auth::user();
@@ -25,13 +26,13 @@ class CartController extends Controller
             ->first();
 
         if ($cartItem)
-            $cartItem->increment('quantity', $data->quantity);
+            $cartItem->increment('quantity', $data['quantity']);
         else {
             // Если товара нет, создаем новую запись
             CartItem::create([
                 'user_id'    => $user->id,
                 'product_id' => $product->id,
-                'quantity'   => $data->quantity,
+                'quantity'   => $data['quantity'],
                 'price'      => $product->price,
             ]);
         }
