@@ -1,6 +1,6 @@
 После клонирования репозитория подключите бд и запустите комманды<br>
 
-composer install><br>
+composer install<br>
 copy .env.example .env<br>
 php artisan key:generate<br>
 php artisan migrate --seed<br>
